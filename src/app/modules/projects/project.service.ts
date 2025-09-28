@@ -2,8 +2,8 @@ import { StatusCodes } from "http-status-codes";
 import AppError from "../../errors/AppError";
 import bcrypt from "bcryptjs";
 import { envVars } from "../../config/env";
-import { IUser, Role } from "./user.interface";
-import { User } from "./user.model";
+import { IUser, Role } from "./project.interface";
+import { User } from "./project.model";
 import { JwtPayload } from "jsonwebtoken";
 
 

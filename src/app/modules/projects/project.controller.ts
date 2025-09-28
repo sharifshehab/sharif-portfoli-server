@@ -2,7 +2,7 @@ import { Request, RequestHandler, Response } from "express";
 import sendResponse from "../../utils/sendResponse";
 import catchAsync from "../../utils/asyncCatch";
 import { StatusCodes } from 'http-status-codes';
-import { UserServices } from "./user.service";
+import { UserServices } from "./project.service";
 
 // post:-------------------------------------------------------------------------
 const createUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
@@ -76,7 +76,7 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 
-export const userController = {
+export const ProjectController = {
   createUser,
   getAllUsers,
   singleUser,
