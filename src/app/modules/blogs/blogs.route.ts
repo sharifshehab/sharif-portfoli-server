@@ -9,4 +9,4 @@ blogRoutes.post('/blogs', validateRequest(createBlogZodSchema), BlogController.c
 blogRoutes.get('/blogs', BlogController.getBlogs);  // get all blogs
 // blogRoutes.get('/:userId', BlogController.singleUser);    // get single user
 // blogRoutes.put('/:id', validateRequest(updateUserZodSchema), BlogController.updateUser);  // update user
-// blogRoutes.delete('/:userId', BlogController.deleteUser);   // delete user
+blogRoutes.delete('/:blogId', BlogController.deleteBlog);   // delete user

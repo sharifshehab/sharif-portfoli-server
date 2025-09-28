@@ -18,7 +18,7 @@ const createBlog = async (payload: IBlog) => {
 }
 
 
-// To get all users:---------------------------------------------------------------------------------------------------------
+// To get all blogs and single blog with blog-id:---------------------------------------------------------------------------------------------------------
 const getBlogs = async (blogId?: string) => {
   if (blogId) {
     const singleBlog = await Blog.findById(blogId);
@@ -95,20 +95,18 @@ const getBlogs = async (blogId?: string) => {
 
 
 // To delete user:---------------------------------------------------------------------------------------------------------
-// const deleteUser = async (payload: string) => {
-//   const { userId } = payload;
-//   const user = await User.findByIdAndDelete(userId);
-//   if (!user) {
-//     throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
-//   }
-
-//   return { user };
-// }
+const deleteBlog = async (blogId: string) => {
+  const blog = await Blog.findByIdAndDelete(blogId);
+  if (!blog) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Blog not found');
+  }
+  return blog;
+}
 
 export const BlogServices = {
   createBlog,
   getBlogs,
   // singleUser,
   // updateUser,
-  // deleteUser
+  deleteBlog
 }

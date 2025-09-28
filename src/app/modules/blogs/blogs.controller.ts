@@ -18,31 +18,20 @@ const createBlog: RequestHandler = catchAsync(async (req: Request, res: Response
 );
 
 // Get blogs:-------------------------------------------------------------------------
-/* All blogs */
+/* All blogs & single blog with blog-id */
 const getBlogs = catchAsync(async (req: Request, res: Response) => {
   const { blogId } = req.query;
   const result = await BlogServices.getBlogs(blogId as string);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
-    message: "All Blogs Retrieved Successfully",
+    message: Array.isArray(result) ? "All Blogs Retrieved Successfully" : "Blog Data Retrieved Successfully",
     data: result
   })
 })
 
 
-/* single user */
-// const singleUser = catchAsync(async (req: Request, res: Response) => {
-//   const { slug } = req.params;
-//   const result = await BlogServices.singleUser(slug);
 
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: StatusCodes.OK,
-//     message: "User Retrieved Successfully",
-//     data: result.user,
-//   })
-// });
 
 
 // put/patch:-------------------------------------------------------------------------
@@ -62,17 +51,17 @@ const getBlogs = catchAsync(async (req: Request, res: Response) => {
 
 
 // delete---------------------------------
-// const deleteUser = catchAsync(async (req: Request, res: Response) => {
-//   const { userId } = req.params;
-//   const result = await BlogServices.deleteUser(userId);
+const deleteBlog = catchAsync(async (req: Request, res: Response) => {
+  const { blogId } = req.params;
+  const result = await BlogServices.deleteBlog(blogId as string);
 
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: StatusCodes.OK,
-//     message: "User Deleted Successfully",
-//     data: result.user,
-//   })
-// });
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "Blog Deleted Successfully",
+    data: result,
+  })
+});
 
 
 export const BlogController = {
@@ -80,6 +69,6 @@ export const BlogController = {
   getBlogs,
   // singleUser,
   // updateUser,
-  // deleteUser
+  deleteBlog
 };
 
