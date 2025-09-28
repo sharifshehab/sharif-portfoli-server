@@ -17,19 +17,17 @@ const createBlog: RequestHandler = catchAsync(async (req: Request, res: Response
 }
 );
 
-// get:-------------------------------------------------------------------------
-/* all user */
-// const getAllUsers = catchAsync(async (req: Request, res: Response) => {
-//   const result = await BlogServices.getAllUsers();
-
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: StatusCodes.OK,
-//     message: "All Users Retrieved Successfully",
-//     data: result.data,
-//     meta: result.meta
-//   })
-// })
+// Get blogs:-------------------------------------------------------------------------
+/* All blogs */
+const getAllBlogs = catchAsync(async (req: Request, res: Response) => {
+  const result = await BlogServices.getAllBlogs();
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "All Blogs Retrieved Successfully",
+    data: result
+  })
+})
 
 
 /* single user */
@@ -78,7 +76,7 @@ const createBlog: RequestHandler = catchAsync(async (req: Request, res: Response
 
 export const BlogController = {
   createBlog,
-  // getAllUsers,
+  getAllBlogs,
   // singleUser,
   // updateUser,
   // deleteUser

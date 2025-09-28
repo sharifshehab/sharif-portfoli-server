@@ -19,10 +19,10 @@ const createBlog = async (payload: IBlog) => {
 
 
 // To get all users:---------------------------------------------------------------------------------------------------------
-// const getAllUsers = async () => {
-//   const user = await User.find();
-//   return user;
-// };
+const getAllBlogs = async () => {
+  const blog = await Blog.find();
+  return blog;
+};
 
 
 // To get single user:---------------------------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ const createBlog = async (payload: IBlog) => {
 
 export const BlogServices = {
   createBlog,
-  // getAllUsers,
+  getAllBlogs,
   // singleUser,
   // updateUser,
   // deleteUser
