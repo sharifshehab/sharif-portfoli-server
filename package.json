@@ -1,0 +1,48 @@
+{
+  "name": "mongo-serve",
+  "version": "1.0.0",
+  "description": "A ready-to-use backend boilerplate for Node.js, Express, MongoDB, Mongoose, and TypeScript featuring a clean modular folder structure, environment variable validation, centralized error handling, request validation, reusable utilities, and an example user module to speed up API development.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "lint": "npx eslint ./src",
+    "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
+    "clean": "rimraf dist",
+    "rebuild": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "MongoDB",
+    "mongoose",
+    "typescript"  
+  ],
+  "author": "Sharif Shehabuzzaman",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.20.0",
+    "mongoose": "^8.18.2",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@types/cors": "^2.8.19",
+    "@types/dotenv": "^8.2.3",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/mongodb": "^4.0.7",
+    "@types/node": "^24.5.2",
+    "eslint": "^9.36.0",
+    "rimraf": "^6.0.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.44.1"
+  }
+}
