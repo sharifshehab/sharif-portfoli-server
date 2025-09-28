@@ -6,11 +6,11 @@ import { JwtPayload } from "jsonwebtoken";
 
 
 // To create blog:---------------------------------------------------------------------------------------------------------
-const createBlog = async (payload: IBlog) => {  
+const createBlog = async (payload: IBlog) => {
   // Checking is blog with this title already exist
   const isBlogExist = await Blog.findOne({ title: payload?.title });
   if (isBlogExist) {
-    throw new AppError(StatusCodes.BAD_REQUEST, "Blog Title Already Exist");    
+    throw new AppError(StatusCodes.BAD_REQUEST, "Blog Title Already Exist");
   }
 
   const blog = await Blog.create(payload);
@@ -19,9 +19,17 @@ const createBlog = async (payload: IBlog) => {
 
 
 // To get all users:---------------------------------------------------------------------------------------------------------
-const getAllBlogs = async () => {
-  const blog = await Blog.find();
-  return blog;
+const getBlogs = async (blogId?: string) => {
+  if (blogId) {
+    const singleBlog = await Blog.findById(blogId);
+    if (!singleBlog) {
+      throw new AppError(StatusCodes.NOT_FOUND, 'Blog not found');
+    }
+    return singleBlog;
+  } else {
+    const blog = await Blog.find();
+    return blog;
+  }
 };
 
 
@@ -99,7 +107,7 @@ const getAllBlogs = async () => {
 
 export const BlogServices = {
   createBlog,
-  getAllBlogs,
+  getBlogs,
   // singleUser,
   // updateUser,
   // deleteUser

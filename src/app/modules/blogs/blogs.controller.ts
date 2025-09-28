@@ -19,8 +19,9 @@ const createBlog: RequestHandler = catchAsync(async (req: Request, res: Response
 
 // Get blogs:-------------------------------------------------------------------------
 /* All blogs */
-const getAllBlogs = catchAsync(async (req: Request, res: Response) => {
-  const result = await BlogServices.getAllBlogs();
+const getBlogs = catchAsync(async (req: Request, res: Response) => {
+  const { blogId } = req.query;
+  const result = await BlogServices.getBlogs(blogId as string);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
@@ -76,7 +77,7 @@ const getAllBlogs = catchAsync(async (req: Request, res: Response) => {
 
 export const BlogController = {
   createBlog,
-  getAllBlogs,
+  getBlogs,
   // singleUser,
   // updateUser,
   // deleteUser
