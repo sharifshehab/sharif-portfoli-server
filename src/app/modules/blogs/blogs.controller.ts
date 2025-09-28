@@ -31,26 +31,22 @@ const getBlogs = catchAsync(async (req: Request, res: Response) => {
 })
 
 
+// Update blog:-------------------------------------------------------------------------
+const updateBlog = catchAsync(async (req: Request, res: Response) => {
+  const blogId = req.params.blogId as string;
+  const payload = req.body;
+  const user = await BlogServices.updateBlog(blogId, payload);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.CREATED,
+    message: "Blog Updated Successfully",
+    data: user,
+  })
+})
 
 
-
-// put/patch:-------------------------------------------------------------------------
-// const updateUser = catchAsync(async (req: Request, res: Response) => {
-//   const userId = req.params.id;
-//   const payload = req.body;
-//   const decodedToken = req.user; // Getting the logged-in user JWT_token
-//   const user = await BlogServices.updateUser(userId, payload, decodedToken);
-
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: StatusCodes.CREATED,
-//     message: "User Updated Successfully",
-//     data: user,
-//   })
-// })
-
-
-// delete---------------------------------
+// Delete blog:---------------------------------
 const deleteBlog = catchAsync(async (req: Request, res: Response) => {
   const { blogId } = req.params;
   const result = await BlogServices.deleteBlog(blogId as string);
@@ -67,8 +63,7 @@ const deleteBlog = catchAsync(async (req: Request, res: Response) => {
 export const BlogController = {
   createBlog,
   getBlogs,
-  // singleUser,
-  // updateUser,
+  updateBlog,
   deleteBlog
 };
 

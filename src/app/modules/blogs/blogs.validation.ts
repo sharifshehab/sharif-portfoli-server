@@ -1,6 +1,6 @@
 import z from "zod";
 
-// For create blog
+// For create new blog
 export const createBlogZodSchema = z.object({
     title: z
         .string()
@@ -24,23 +24,6 @@ export const createBlogZodSchema = z.object({
         .array(z.string()).min(1, { message: "At least one tag is required." })
 });
 
-// For update user
-export const updateUserZodSchema = createBlogZodSchema.partial(); /* All the all fields are optional, because the user might update just one or two fields. */
+// For update old blog
+export const updateBlogZodSchema = createBlogZodSchema.partial();
 
-// If the update schema has fields not present in the create schema (e.g., isDeleted, isVerified, etc.), then use .extend() like this:
-// export const updateUserZodSchema = createUserZodSchema
-//     .partial()
-//     .extend({
-//         role: z
-//             .enum(Object.values(Role) as [string])
-//             .optional(),
-//         isActive: z
-//             .enum(Object.values(IsActive) as [string])
-//             .optional(),
-//         isDeleted: z
-//             .boolean()
-//             .optional(),
-//         isVerified: z
-//             .boolean()
-//             .optional(),
-//     });
