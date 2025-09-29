@@ -50,8 +50,8 @@ const updateProject = catchAsync(async (req: Request, res: Response) => {
 
 // delete---------------------------------
 const deleteProject = catchAsync(async (req: Request, res: Response) => {
-  const { userId } = req.params;
-  const result = await ProjectServices.deleteProject(userId);
+  const { projectId } = req.params;
+  const result = await ProjectServices.deleteProject(projectId);
 
   sendResponse(res, {
     success: true,
