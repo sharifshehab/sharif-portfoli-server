@@ -1,38 +1,39 @@
 import { model, Schema } from "mongoose";
-import { IAuthProvider, IsActive, IUser, Role } from "./project.interface";
+import { IProjectChallenges, IProject, IUpcomingFeatures } from "./project.interface";
 
 
-const authProviderSchema = new Schema<IAuthProvider>({
-  provider: { type: String, required: true },
-  providerId: { type: String, required: true }
+const upcomingFeaturesSchema = new Schema<IUpcomingFeatures>({
+  title: { type: String, required: true },
+  description: { type: String, required: true }
 }, {
   versionKey: false,
   _id: false
 });
 
-const userSchema = new Schema<IUser>({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String },
-  role: {
-    type: String,
-    enum: Object.values(Role),
-    default: Role.USER
-  },
-  phone: { type: String },
-  picture: { type: String },
-  address: { type: String },
-  isDeleted: { type: Boolean, default: false },
-  isActive: {
-    type: String,
-    enum: Object.values(IsActive),
-    default: IsActive.ACTIVE,
-  },
-  isVerified: { type: Boolean, default: false },
-  auths: [authProviderSchema],
+const projectChallengesSchema = new Schema<IProjectChallenges>({
+  title: { type: String, required: true },
+  description: { type: String, required: true }
+}, {
+  versionKey: false,
+  _id: false
+});
+
+
+
+const projectSchema = new Schema<IProject>({
+  name: { type: String, required: true, unique: true },
+  subTitle: { type: String, required: true },
+  description: { type: String, required: true },
+  thumbnail: { type: String, required: true },
+  technology: { type: [String], required: true },
+  features: { type: [String], required: true },
+  githubRepo: { type: String, required: true },
+  liveLink: { type: String, required: true },
+  upcomingFeatures: { type: [upcomingFeaturesSchema], required: true },
+  projectChallenges: { type: [projectChallengesSchema], required: true }
 }, {
   timestamps: true,
   versionKey: false
 })
 
-export const User = model<IUser>("User", userSchema)
+export const Project = model<IProject>("Project", projectSchema)

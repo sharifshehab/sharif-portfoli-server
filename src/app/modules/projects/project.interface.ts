@@ -1,35 +1,21 @@
-import { Types } from "mongoose";
-
-export enum IsActive {
-	ACTIVE = "ACTIVE",
-	INACTIVE = "INACTIVE",
-	BLOCKED = "BLOCKED"
+export interface IUpcomingFeatures {
+	title: string;
+	description: string;
 }
-export enum Role {
-	SUPER_ADMIN = "SUPER_ADMIN",
-	ADMIN = "ADMIN",
-	USER = "USER",
-	GUIDE = "GUIDE",
+export interface IProjectChallenges {
+	title: string;
+	description: string;
 }
 
-export interface IAuthProvider {
-	provider: "google" | "credentials";  
-	providerId: string;
-}
-
-
-export interface IUser {
+export interface IProject {
 	name: string;
-	email: string;
-	password?: string;
-	phone?: string;
-	picture?: string;
-	address?: string;
-	isDeleted?: string;
-	isActive?: IsActive;
-	isVerified?: boolean;
-	role: Role;
-	auths: IAuthProvider[]
-	bookings?: Types.ObjectId[]
-	guides?: Types.ObjectId[]
+	subTitle: string;
+	description: string;
+	thumbnail: string;
+	technology: string[];
+	features: string[];
+	githubRepo: string;
+	liveLink: string;
+	upcomingFeatures?: IUpcomingFeatures[]
+	projectChallenges?: IProjectChallenges[]
 }

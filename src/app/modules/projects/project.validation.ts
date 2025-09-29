@@ -1,61 +1,76 @@
 import z from "zod";
-import { IsActive, Role } from "./project.interface";
+
+const upcomingFeaturesZodSchema = z.object({
+    title: z
+        .string()
+        .min(2, { message: "Feature title must be at least 2 characters long." })
+        .max(25, { message: "Feature title cannot exceed 25 characters." })
+        .refine((val) => typeof val === "string", {
+            message: "Feature title must be a string",
+        }),
+    description: z
+        .string()
+        .min(2, { message: "Feature description must be at least 2 characters long." })
+        .refine((val) => typeof val === "string", {
+            message: "Feature description must be a string",
+        }),
+});
+
+const projectChallengesZodSchema = z.object({
+    title: z
+        .string()
+        .min(2, { message: "Challenges title must be at least 2 characters long." })
+        .max(25, { message: "Challenges title cannot exceed 25 characters." })
+        .refine((val) => typeof val === "string", {
+            message: "Feature title must be a string",
+        }),
+    description: z
+        .string()
+        .min(2, { message: "Challenges description must be at least 2 characters long." })
+        .refine((val) => typeof val === "string", {
+            message: "Challenges description must be a string",
+        }),
+});
 
 // For create user
-export const createUserZodSchema = z.object({
+export const createProjectZodSchema = z.object({
     name: z
         .string()
-        .min(2, { message: "Name must be at least 2 characters long." })
-        .max(50, { message: "Name cannot exceed 50 characters." })
+        .min(5, { message: "Name must be at least 5 characters long." })
+        .max(25, { message: "Name cannot exceed 25 characters." })
         .refine((val) => typeof val === "string", {
             message: "Name must be a string",
         }),
-    email: z
-        .email({ message: "Invalid email address format." })
-        .min(5, { message: "Email must be at least 5 characters long." })
-        .max(100, { message: "Email cannot exceed 100 characters." }),
-    password: z
+    subTitle: z
         .string()
-        .min(8, { message: "Password must be at least 8 characters long." })
-        .regex(/^(?=.*[A-Z])/, {
-            message: "Password must contain at least 1 uppercase letter.",
-        })
-        .regex(/^(?=.*[!@#$%^&*])/, {
-            message: "Password must contain at least 1 special character.",
-        })
-        .regex(/^(?=.*\d)/, {
-            message: "Password must contain at least 1 number.",
+        .refine((val) => typeof val === "string", {
+            message: "Sub Title must be a string",
         }),
-    phone: z
+    description: z
         .string()
-        .regex(/^(?:\+8801\d{9}|01\d{9})$/, {
-            message: "Phone number must be valid for Bangladesh. Format: +8801XXXXXXXXX or 01XXXXXXXXX",
-        })
+        .refine((val) => typeof val === "string", {
+            message: "Description must be a string",
+        }),
+    thumbnail: z
+        .string(),
+    technology: z
+        .array(z.string()).min(1, { message: "At least one technology is required." }),
+    features: z
+        .array(z.string()).min(1, { message: "At least one feature is required." }),
+    githubRepo: z
+        .string(),
+    liveLink: z
+        .string(),
+    upcomingFeatures: z
+        .array(upcomingFeaturesZodSchema)
         .optional(),
-    address: z
-        .string()
-        .max(200, { message: "Address cannot exceed 200 characters." })
+    projectChallenges: z
+        .array(projectChallengesZodSchema)
         .optional(),
-    role: z.enum(Role)
+
 });
 
 // For update user
-export const updateUserZodSchema = createUserZodSchema.partial(); /* All the all fields are optional, because the user might update just one or two fields. */
+export const updateProjectZodSchema = createProjectZodSchema.partial();
 
-// If the update schema has fields not present in the create schema (e.g., isDeleted, isVerified, etc.), then use .extend() like this:
-// export const updateUserZodSchema = createUserZodSchema
-//     .partial()
-//     .extend({
-//         role: z
-//             .enum(Object.values(Role) as [string])
-//             .optional(),
-//         isActive: z
-//             .enum(Object.values(IsActive) as [string])
-//             .optional(),
-//         isDeleted: z
-//             .boolean()
-//             .optional(),
-//         isVerified: z
-//             .boolean()
-//             .optional(),
-//     });
+
