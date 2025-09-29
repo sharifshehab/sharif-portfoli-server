@@ -3,10 +3,15 @@ import sendResponse from "../../utils/sendResponse";
 import catchAsync from "../../utils/asyncCatch";
 import { StatusCodes } from 'http-status-codes';
 import { BlogServices } from "./blogs.service";
+import { IBlog } from "./blogs.interface";
 
 // Create new blog:-------------------------------------------------------------------------
 const createBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-  const blog = await BlogServices.createBlog(req.body);
+  const payload: IBlog = {
+    ...req.body,
+    thumbnail: req.file?.path
+  }
+  const blog = await BlogServices.createBlog(payload);
 
   sendResponse(res, {
     success: true,
