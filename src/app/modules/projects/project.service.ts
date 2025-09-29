@@ -33,7 +33,6 @@ const getProjects = async (projectId?: string) => {
 };
 
 
-
 // To update user:---------------------------------------------------------------------------------------------------------
 const updateProject = async (projectId: string, payload: Partial<IProject>) => {
 

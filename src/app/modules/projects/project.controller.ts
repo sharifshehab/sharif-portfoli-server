@@ -3,10 +3,15 @@ import sendResponse from "../../utils/sendResponse";
 import catchAsync from "../../utils/asyncCatch";
 import { StatusCodes } from 'http-status-codes';
 import { ProjectServices } from "./project.service";
+import { IProject } from "./project.interface";
 
 // post:-------------------------------------------------------------------------
 const createProject: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-  const user = await ProjectServices.createProject(req.body);
+  const payload: IProject = {
+    ...req.body,
+    thumbnail: req.file?.path
+  }
+  const user = await ProjectServices.createProject(payload);
 
   sendResponse(res, {
     success: true,
@@ -31,8 +36,6 @@ const getProjects = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-
-
 // patch:-------------------------------------------------------------------------
 const updateProject = catchAsync(async (req: Request, res: Response) => {
   const { projectId } = req.params;
@@ -46,7 +49,6 @@ const updateProject = catchAsync(async (req: Request, res: Response) => {
     data: user,
   })
 })
-
 
 // delete---------------------------------
 const deleteProject = catchAsync(async (req: Request, res: Response) => {

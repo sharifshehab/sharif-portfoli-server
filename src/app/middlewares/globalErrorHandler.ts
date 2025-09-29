@@ -7,12 +7,18 @@ import { handlerDuplicateError } from '../errorHelpers/handleDuplicateError';
 import { handleCastError } from '../errorHelpers/handleCastError';
 import { handlerZodError } from '../errorHelpers/handlerZodError';
 import { handlerValidationError } from '../errorHelpers/handlerValidationError';
+import { deleteImageFromCLoudinary } from '../config/cloudinary.config';
 
-const globalErrorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response) => {
+const globalErrorHandler: ErrorRequestHandler = async (err: any, req: Request, res: Response) => {
 
 	// Show "console" error in development mode
 	if (envVars.NODE_ENV === "development") {
 		console.log(err);
+	}
+
+	// For Cloudinary
+	if (req.file) {
+		await deleteImageFromCLoudinary(req.file.path)
 	}
 
 	// Default error values
