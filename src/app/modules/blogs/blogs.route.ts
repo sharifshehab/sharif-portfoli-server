@@ -8,5 +8,5 @@ export const blogRoutes = Router();
 
 blogRoutes.post('/blogs', multerUpload.single("file"), validateRequest(createBlogZodSchema), BlogController.createBlog);       // create blog
 blogRoutes.get('/blogs', BlogController.getBlogs);                                               // get all blogs and single blog with blog-id
-blogRoutes.patch('/:blogId', validateRequest(updateBlogZodSchema), BlogController.updateBlog);  // update blog
+blogRoutes.patch('/:blogId', multerUpload.single("file"), validateRequest(updateBlogZodSchema), BlogController.updateBlog);  // update blog
 blogRoutes.delete('/:blogId', BlogController.deleteBlog);                                      // delete blog

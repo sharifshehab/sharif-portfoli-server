@@ -39,7 +39,10 @@ const getBlogs = catchAsync(async (req: Request, res: Response) => {
 // Update blog:-------------------------------------------------------------------------
 const updateBlog = catchAsync(async (req: Request, res: Response) => {
   const blogId = req.params.blogId as string;
-  const payload = req.body;
+  const payload: IBlog = {
+    ...req.body,                // blog update data
+    thumbnail: req.file?.path  // blog update image
+  }
   const user = await BlogServices.updateBlog(blogId, payload);
 
   sendResponse(res, {

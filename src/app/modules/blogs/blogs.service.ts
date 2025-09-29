@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import AppError from "../../errors/AppError";
 import { IBlog } from "./blogs.interface";
 import { Blog } from "./blogs.model";
+import { deleteImageFromCLoudinary } from "../../config/cloudinary.config";
 
 // To create blog:---------------------------------------------------------------------------------------------------------
 const createBlog = async (payload: IBlog) => {
@@ -37,10 +38,17 @@ const updateBlog = async (blogId: string, payload: Partial<IBlog>) => {
   if (payload?.email) {
     throw new AppError(StatusCodes.BAD_REQUEST, "Email Cannot Be Changed")
   }
+  const existingBlog = await Blog.findById(blogId);
+  if (!existingBlog) {
+    throw new Error("Blog not found.");
+  }
 
   const newUpdatedBlog = await Blog.findByIdAndUpdate(blogId, payload, { new: true, runValidators: true });
-  if (!newUpdatedBlog) {
-    throw new AppError(StatusCodes.NOT_FOUND, "Blog Not Found")
+
+  // Make sure to put this, after "findByIdAndUpdate"
+  if (payload.thumbnail && existingBlog.thumbnail) {
+    // Delete the old Image from the "Cloudinary" website
+    await deleteImageFromCLoudinary(existingBlog.thumbnail);
   }
   return newUpdatedBlog
 }
