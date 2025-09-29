@@ -39,7 +39,10 @@ const getProjects = catchAsync(async (req: Request, res: Response) => {
 // patch:-------------------------------------------------------------------------
 const updateProject = catchAsync(async (req: Request, res: Response) => {
   const { projectId } = req.params;
-  const payload = req.body;
+  const payload: IProject = {
+    ...req.body,                // project update data
+    thumbnail: req.file?.path  // project update image
+  }
   const user = await ProjectServices.updateProject(projectId as string, payload);
 
   sendResponse(res, {

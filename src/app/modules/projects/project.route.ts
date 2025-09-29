@@ -6,7 +6,7 @@ import { multerUpload } from "../../config/multer.config";
 
 export const projectRoutes = Router();
 
-projectRoutes.post('/projects', multerUpload.single("file"), validateRequest(createProjectZodSchema), ProjectController.createProject);       // create blog
-projectRoutes.get('/projects', ProjectController.getProjects);                                                  // get all blogs and single blog with blog-id
-projectRoutes.patch('/:projectId', validateRequest(updateProjectZodSchema), ProjectController.updateProject);  // update blog
-projectRoutes.delete('/:projectId', ProjectController.deleteProject);                                         // delete blog
+projectRoutes.post('/projects', multerUpload.single("file"), validateRequest(createProjectZodSchema), ProjectController.createProject);       // create project
+projectRoutes.get('/projects', ProjectController.getProjects);                                                  // get all projects and single project with project-id
+projectRoutes.patch('/:projectId', multerUpload.single("file"), validateRequest(updateProjectZodSchema), ProjectController.updateProject);  // update project
+projectRoutes.delete('/:projectId', ProjectController.deleteProject);                                         // delete project

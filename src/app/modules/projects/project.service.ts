@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import AppError from "../../errors/AppError";
 import { IProject } from "./project.interface";
 import { Project } from "./project.model";
+import { deleteImageFromCLoudinary } from "../../config/cloudinary.config";
 
 
 
@@ -35,10 +36,17 @@ const getProjects = async (projectId?: string) => {
 
 // To update user:---------------------------------------------------------------------------------------------------------
 const updateProject = async (projectId: string, payload: Partial<IProject>) => {
+  const existingProject = await Project.findById(projectId);
+  if (!existingProject) {
+    throw new Error("Project not found.");
+  }
 
   const newUpdatedProject = await Project.findByIdAndUpdate(projectId, payload, { new: true, runValidators: true });
-  if (!newUpdatedProject) {
-    throw new AppError(StatusCodes.NOT_FOUND, "Project Not Found")
+
+  // Make sure to put this, after "findByIdAndUpdate"
+  if (payload.thumbnail && existingProject.thumbnail) {
+    // Delete the old Image from the "Cloudinary" website
+    await deleteImageFromCLoudinary(existingProject.thumbnail);
   }
   return newUpdatedProject
 }
