@@ -8,8 +8,8 @@ import { IProject } from "./project.interface";
 // post:-------------------------------------------------------------------------
 const createProject: RequestHandler = catchAsync(async (req: Request, res: Response) => {
   const payload: IProject = {
-    ...req.body,
-    thumbnail: req.file?.path
+    ...req.body,                // project data
+    thumbnail: req.file?.path  // project image
   }
   const user = await ProjectServices.createProject(payload);
 
