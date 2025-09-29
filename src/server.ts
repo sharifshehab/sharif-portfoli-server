@@ -2,6 +2,7 @@ import { Server } from "http";
 import app from "./app";
 import mongoose from "mongoose";
 import { envVars } from "./app/config/env";
+import { seedSuperAdmin } from "./app/utils/seedSuperAdmin";
 
 let server: Server;
 
@@ -21,12 +22,13 @@ async function startServer() {
   }
 }
 startServer();
-/* ________________To create an initial admin for the server at startup (Uncomment this after "user-create" API)________________
-  (async () => {
-      await startServer()
-      await seedSuperAdmin()
-  })()
-*/
+
+// seed admin
+(async () => {
+  await startServer()
+  await seedSuperAdmin()
+})()
+
 
 process.on("SIGTERM", () => {
   console.log("SIGTERM signal received... Server shutting down..");

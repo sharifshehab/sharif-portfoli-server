@@ -5,6 +5,10 @@ import { envVars } from "./app/config/env";
 import { routes } from "./app/routes";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 import notFound from "./app/middlewares/notFound";
+import expressSession from "express-session";
+import passport from 'passport';
+import "./app/config/passport";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 const app: Application = express();
@@ -18,6 +22,16 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(cookieParser());
+app.use(expressSession({
+  secret: envVars.EXPRESS_SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // All routes 
 app.use("/api/v1", routes);
