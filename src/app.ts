@@ -14,6 +14,7 @@ dotenv.config();
 const app: Application = express();
 
 // parsers
+app.set("trust proxy", 1);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(

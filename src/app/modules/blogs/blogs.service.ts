@@ -34,10 +34,6 @@ const getBlogs = async (blogId?: string) => {
 
 // To update user:---------------------------------------------------------------------------------------------------------
 const updateBlog = async (blogId: string, payload: Partial<IBlog>) => {
-  // Email address cannot be changed
-  if (payload?.email) {
-    throw new AppError(StatusCodes.BAD_REQUEST, "Email Cannot Be Changed")
-  }
   const existingBlog = await Blog.findById(blogId);
   if (!existingBlog) {
     throw new Error("Blog not found.");

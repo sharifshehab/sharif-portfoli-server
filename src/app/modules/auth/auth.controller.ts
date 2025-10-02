@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from "express"
 import httpStatus from "http-status-codes"
@@ -12,7 +13,7 @@ import catchAsync from "../../utils/asyncCatch"
 
 //------------>Log-In:
 const credentialsLogin = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-                
+
     passport.authenticate("local", async (err: any, user: any, info: any) => {
 
         if (err) {
@@ -24,7 +25,6 @@ const credentialsLogin = catchAsync(async (req: Request, res: Response, next: Ne
         }
         // Generate user "Access Token" and "Refresh Token" 
         const userTokens = createUserTokens(user)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password: pass, ...rest } = user.toObject()
         // save both the "Access Token" and "Refresh Token" on client-side, when user "Logged In"
         setAuthCookie(res, userTokens)
@@ -48,7 +48,7 @@ const credentialsLogin = catchAsync(async (req: Request, res: Response, next: Ne
 const getNewAccessToken = catchAsync(async (req: Request, res: Response) => {
 
     const refreshToken = req.cookies.refreshToken;  // Retrieve the "Refresh_token" from the client side
-    
+
     if (!refreshToken) {
         throw new AppError(httpStatus.BAD_REQUEST, "No refresh token received!")
     }
@@ -74,17 +74,17 @@ const logout = catchAsync(async (req: Request, res: Response) => {
     res.clearCookie("accessToken", {
         maxAge: 0,
         httpOnly: true,
-        // secure: false,
-        secure: process.env.NODE_ENV === 'production', 
-        sameSite: "none"
+        secure: true,
+        // secure: process.env.NODE_ENV === 'production',
+        sameSite: "none",
     });
 
     // Remove "Refresh Token" from the client-side cookie
     res.clearCookie("refreshToken", {
         maxAge: 0,
         httpOnly: true,
-        // secure: false,
-        secure: process.env.NODE_ENV === 'production', 
+        secure: true,
+        // secure: process.env.NODE_ENV === 'production',
         sameSite: "none"
     });
 
