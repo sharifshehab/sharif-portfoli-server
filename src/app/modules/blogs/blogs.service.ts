@@ -6,12 +6,6 @@ import { deleteImageFromCLoudinary } from "../../config/cloudinary.config";
 
 // To create blog:---------------------------------------------------------------------------------------------------------
 const createBlog = async (payload: IBlog) => {
-  // Checking is blog with this title already exist
-  const isBlogExist = await Blog.findOne({ title: payload?.title });
-  if (isBlogExist) {
-    throw new AppError(StatusCodes.BAD_REQUEST, "Blog Title Already Exist");
-  }
-
   const blog = await Blog.create(payload);
   return blog
 }
@@ -22,15 +16,12 @@ const getBlogs = async (query: Record<string, string>) => {
   const { blogId, limit } = query
   if (blogId) {
     const singleBlog = await Blog.findById(blogId);
-    if (!singleBlog) {
-      throw new AppError(StatusCodes.NOT_FOUND, 'Blog not found');
-    }
     return singleBlog;
   } else {
     const limitNumber = limit ? parseInt(limit) : 0;
     const blog = limitNumber > 0
-      ? await Blog.find().limit(limitNumber)
-      : await Blog.find();
+      ? await Blog.find().limit(limitNumber).sort({ createdAt: -1 })
+      : await Blog.find().sort({ createdAt: -1 });
 
     return blog;
   }
@@ -41,7 +32,7 @@ const getBlogs = async (query: Record<string, string>) => {
 const updateBlog = async (blogId: string, payload: Partial<IBlog>) => {
   const existingBlog = await Blog.findById(blogId);
   if (!existingBlog) {
-    throw new Error("Blog not found.");
+    throw new AppError(StatusCodes.NOT_FOUND, "Blog not found.");
   }
 
   const newUpdatedBlog = await Blog.findByIdAndUpdate(blogId, payload, { new: true, runValidators: true });
@@ -58,9 +49,6 @@ const updateBlog = async (blogId: string, payload: Partial<IBlog>) => {
 // To delete blog:---------------------------------------------------------------------------------------------------------
 const deleteBlog = async (blogId: string) => {
   const blog = await Blog.findByIdAndDelete(blogId);
-  if (!blog) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'Blog not found');
-  }
   return blog;
 }
 
