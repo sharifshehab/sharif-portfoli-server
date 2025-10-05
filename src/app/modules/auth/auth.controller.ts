@@ -74,8 +74,8 @@ const logout = catchAsync(async (req: Request, res: Response) => {
     res.clearCookie("accessToken", {
         maxAge: 0,
         httpOnly: true,
-        secure: true,
-        // secure: process.env.NODE_ENV === 'production',
+        // secure: true,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: "none",
     });
 
@@ -83,8 +83,8 @@ const logout = catchAsync(async (req: Request, res: Response) => {
     res.clearCookie("refreshToken", {
         maxAge: 0,
         httpOnly: true,
-        secure: true,
-        // secure: process.env.NODE_ENV === 'production',
+        // secure: true,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: "none"
     });
 

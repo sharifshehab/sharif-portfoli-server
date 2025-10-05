@@ -9,6 +9,7 @@ import AppError from "../errors/AppError";
 export const checkAuth = (...authRoles: string[]) => async (req: Request, res: Response, next: NextFunction) => {
 
     try {
+
         const accessToken = req.headers.authorization || req.cookies.accessToken; // Receiving the token from the client-side
 
         if (!accessToken) {

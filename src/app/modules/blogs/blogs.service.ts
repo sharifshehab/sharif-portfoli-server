@@ -18,7 +18,8 @@ const createBlog = async (payload: IBlog) => {
 
 
 // To get all blogs and single blog with blog-id:---------------------------------------------------------------------------------------------------------
-const getBlogs = async (blogId?: string) => {
+const getBlogs = async (query: Record<string, string>) => {
+  const { blogId, limit } = query
   if (blogId) {
     const singleBlog = await Blog.findById(blogId);
     if (!singleBlog) {
@@ -26,7 +27,11 @@ const getBlogs = async (blogId?: string) => {
     }
     return singleBlog;
   } else {
-    const blog = await Blog.find();
+    const limitNumber = limit ? parseInt(limit) : 0;
+    const blog = limitNumber > 0
+      ? await Blog.find().limit(limitNumber)
+      : await Blog.find();
+
     return blog;
   }
 };

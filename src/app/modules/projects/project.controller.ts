@@ -25,8 +25,8 @@ const createProject: RequestHandler = catchAsync(async (req: Request, res: Respo
 // get:-------------------------------------------------------------------------
 /* all user */
 const getProjects = catchAsync(async (req: Request, res: Response) => {
-  const { projectId } = req.query;
-  const result = await ProjectServices.getProjects(projectId as string);
+  const query = req.query;
+  const result = await ProjectServices.getProjects(query as Record<string, string>);
 
   sendResponse(res, {
     success: true,

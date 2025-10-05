@@ -20,7 +20,9 @@ const createProject = async (payload: IProject) => {
 
 
 // To get all users:---------------------------------------------------------------------------------------------------------
-const getProjects = async (projectId?: string) => {
+const getProjects = async (query: Record<string, string>) => {
+  const { projectId, limit } = query
+
   if (projectId) {
     const singleProject = await Project.findById(projectId);
     if (!singleProject) {
@@ -28,7 +30,12 @@ const getProjects = async (projectId?: string) => {
     }
     return singleProject;
   } else {
-    const project = await Project.find();
+    const limitNumber = limit ? parseInt(limit) : 0;
+    const project = limitNumber > 0
+      ? await Project.find().limit(limitNumber)
+      :
+      await Project.find();
+
     return project;
   }
 };

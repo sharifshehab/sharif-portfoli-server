@@ -25,8 +25,8 @@ const createBlog: RequestHandler = catchAsync(async (req: Request, res: Response
 // Get blogs:-------------------------------------------------------------------------
 /* All blogs & single blog with blog-id */
 const getBlogs = catchAsync(async (req: Request, res: Response) => {
-  const { blogId } = req.query;
-  const result = await BlogServices.getBlogs(blogId as string);
+  const query = req.query;
+  const result = await BlogServices.getBlogs(query as Record<string, string>);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,

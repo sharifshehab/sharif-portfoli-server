@@ -15,8 +15,8 @@ const app: Application = express();
 
 // parsers
 app.set("trust proxy", 1);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(
   cors({
     origin: [envVars.FRONTEND_URL],
@@ -39,7 +39,7 @@ app.use("/api/v1", routes);
 
 // Main route
 app.get("/", (req: Request, res: Response) => {
-  res.send(`MongoServe Server Running on port ${envVars.PORT}`);
+  res.send(`MongoServe Server Running on Port ${envVars.PORT}`);
 });
 
 // global error handler middleware
